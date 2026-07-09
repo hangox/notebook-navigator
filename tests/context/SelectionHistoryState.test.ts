@@ -65,7 +65,8 @@ function createSelectionState(rootFolder: TFolder): SelectionState {
                 value: rootFolder.path
             }
         ],
-        navigationHistoryIndex: 0
+        navigationHistoryIndex: 0,
+        listScrollToTopSignal: 0
     };
 }
 

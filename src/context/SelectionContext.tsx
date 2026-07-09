@@ -43,7 +43,12 @@ export type NavigationSelectionState = Pick<SelectionState, 'selectionType' | 's
 export type FileSelectionState = Pick<SelectionState, 'selectedFiles' | 'selectedFile' | 'anchorIndex' | 'lastMovementDirection'>;
 export type SelectionFlagsState = Pick<
     SelectionState,
-    'isRevealOperation' | 'isFolderChangeWithAutoSelect' | 'isKeyboardNavigation' | 'isFolderNavigation' | 'revealSource'
+    | 'isRevealOperation'
+    | 'isFolderChangeWithAutoSelect'
+    | 'isKeyboardNavigation'
+    | 'isFolderNavigation'
+    | 'revealSource'
+    | 'listScrollToTopSignal'
 >;
 export type SelectionRevealState = Pick<SelectionState, 'isRevealOperation' | 'revealSource'>;
 export type SelectionHistoryState = Pick<SelectionState, 'navigationHistory' | 'navigationHistoryIndex'>;
@@ -163,14 +168,16 @@ export function SelectionProvider({
             isFolderChangeWithAutoSelect: state.isFolderChangeWithAutoSelect,
             isKeyboardNavigation: state.isKeyboardNavigation,
             isFolderNavigation: state.isFolderNavigation,
-            revealSource: state.revealSource
+            revealSource: state.revealSource,
+            listScrollToTopSignal: state.listScrollToTopSignal
         }),
         [
             state.isFolderChangeWithAutoSelect,
             state.isFolderNavigation,
             state.isKeyboardNavigation,
             state.isRevealOperation,
-            state.revealSource
+            state.revealSource,
+            state.listScrollToTopSignal
         ]
     );
     const selectionReveal = useMemo<SelectionRevealState>(

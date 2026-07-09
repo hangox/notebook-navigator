@@ -84,6 +84,7 @@ export function NavigationPaneTreeRow({
                     isExcluded={item.isExcluded}
                     onToggle={() => tree.handleFolderToggle(item.data.path)}
                     onClick={() => tree.handleFolderClick(item.data)}
+                    onDoubleClick={wasSelected => tree.handleFolderDoubleClick(item.data, wasSelected)}
                     onNameClick={event => tree.handleFolderNameClick(item.data, event)}
                     onNameMouseDown={event => tree.handleFolderNameMouseDown(item.data, event)}
                     onToggleAllSiblings={() => tree.handleFolderToggleAllSiblings(item.data)}

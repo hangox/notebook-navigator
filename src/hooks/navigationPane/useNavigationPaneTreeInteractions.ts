@@ -90,6 +90,7 @@ interface UseNavigationPaneTreeInteractionsProps {
 export interface NavigationPaneTreeInteractionsResult {
     handleFolderToggle: (path: string) => void;
     handleFolderClick: (folder: TFolder, options?: { fromShortcut?: boolean }) => void;
+    handleFolderDoubleClick: (folder: TFolder, wasSelected: boolean) => void;
     handleFolderNameClick: (folder: TFolder, event?: React.MouseEvent<HTMLSpanElement>) => void;
     handleFolderNameMouseDown: (folder: TFolder, event: React.MouseEvent<HTMLSpanElement>) => void;
     handleFolderToggleAllSiblings: (folder: TFolder) => void;
@@ -214,6 +215,26 @@ export function useNavigationPaneTreeInteractions({
             uiDispatch,
             uiState.singlePane
         ]
+    );
+
+    // wasSelected must be latched by the caller at the start of the click sequence: the double-click fires
+    // after the leading onClick has already selected this folder, so reading the live selection here would
+    // always report "selected" and the expand/collapse branch below would become dead code.
+    const handleFolderDoubleClick = useCallback(
+        (folder: TFolder, wasSelected: boolean) => {
+            // Double-clicking a folder that was already selected before the clicks scrolls the list pane to top
+            if (wasSelected) {
+                selectionDispatch({ type: 'REQUEST_LIST_SCROLL_TOP' });
+                return;
+            }
+
+            // Otherwise keep the original expand/collapse behavior for folders that have subfolders
+            const hasChildFolders = folder.children.some(child => child instanceof TFolder);
+            if (hasChildFolders) {
+                handleFolderToggle(folder.path);
+            }
+        },
+        [handleFolderToggle, selectionDispatch]
     );
 
     const handleFolderNameClick = useCallback(
@@ -718,6 +739,7 @@ export function useNavigationPaneTreeInteractions({
     const interactions: NavigationPaneTreeInteractionsResult = {
         handleFolderToggle,
         handleFolderClick,
+        handleFolderDoubleClick,
         handleFolderNameClick,
         handleFolderNameMouseDown,
         handleFolderToggleAllSiblings,
@@ -737,6 +759,7 @@ export function useNavigationPaneTreeInteractions({
     return useStableHandlerFacade(interactions, [
         'handleFolderToggle',
         'handleFolderClick',
+        'handleFolderDoubleClick',
         'handleFolderNameClick',
         'handleFolderNameMouseDown',
         'handleFolderToggleAllSiblings',

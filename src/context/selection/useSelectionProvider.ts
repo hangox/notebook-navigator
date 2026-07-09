@@ -223,7 +223,8 @@ export function loadInitialSelectionState({ app, settings }: LoadInitialSelectio
         isFolderNavigation: false,
         revealSource: null,
         navigationHistory,
-        navigationHistoryIndex
+        navigationHistoryIndex,
+        listScrollToTopSignal: 0
     };
 }
 

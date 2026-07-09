@@ -80,8 +80,18 @@ function createSelectionState(): SelectionState {
         selectedFile: null,
         revealSource: null,
         navigationHistory: [],
-        navigationHistoryIndex: -1
+        navigationHistoryIndex: -1,
+        listScrollToTopSignal: 0
     };
+}
+
+// Creates a folder that reports child folders, so double-click keeps the expand/collapse behavior
+function createTestFolderWithSubfolder(app: App, path: string): TFolder {
+    const folder = createTestFolder(app, path);
+    const child = createTestFolder(app, `${path}/child`);
+    child.parent = folder;
+    (folder as TFolder & { children: unknown[] }).children.push(child);
+    return folder;
 }
 
 interface TestVaultMethods {
@@ -303,5 +313,104 @@ describe('useNavigationPaneTreeInteractions', () => {
 
         expect(uiDispatch).not.toHaveBeenCalledWith({ type: 'SET_SINGLE_PANE_VIEW', view: 'files' });
         expect(uiDispatch).not.toHaveBeenCalledWith({ type: 'SET_FOCUSED_PANE', pane: 'files' });
+    });
+
+    describe('handleFolderDoubleClick', () => {
+        // Renders the hook with the given selection state and returns the captured interactions plus the spies
+        function captureInteractions(
+            app: App,
+            selectionState: SelectionState
+        ): {
+            result: NavigationPaneTreeInteractionsResult;
+            selectionDispatch: ReturnType<typeof vi.fn>;
+            expansionDispatch: ReturnType<typeof vi.fn>;
+        } {
+            const selectionDispatch = vi.fn();
+            const expansionDispatch = vi.fn();
+            let captured: NavigationPaneTreeInteractionsResult | null = null;
+
+            function Harness() {
+                captured = useNavigationPaneTreeInteractions({
+                    app,
+                    commandQueue: null,
+                    isMobile: false,
+                    settings: DEFAULT_SETTINGS,
+                    uiState: { singlePane: false },
+                    expansionState: {
+                        expandedFolders: new Set(),
+                        expandedTags: new Set(),
+                        expandedProperties: new Set(),
+                        expandedVirtualFolders: new Set()
+                    },
+                    expansionDispatch,
+                    selectionState,
+                    selectionDispatch,
+                    uiDispatch: vi.fn(),
+                    propertyTreeService: null,
+                    tagTree: new Map(),
+                    propertyTree: new Map(),
+                    tagsVirtualFolderHasChildren: false,
+                    setShortcutsExpanded: vi.fn(),
+                    setRecentNotesExpanded: vi.fn(),
+                    clearActiveShortcut: vi.fn(),
+                    openFolderNoteInRightSidebar: vi.fn(),
+                    onModifySearchWithTag: vi.fn(),
+                    onModifySearchWithProperty: vi.fn()
+                });
+                return null;
+            }
+
+            renderToStaticMarkup(React.createElement(Harness));
+
+            if (!captured) {
+                throw new Error('Expected hook result');
+            }
+
+            return { result: captured, selectionDispatch, expansionDispatch };
+        }
+
+        it('requests a list scroll-to-top without toggling when the already selected folder is double-clicked', () => {
+            const app = new App();
+            const folder = createTestFolderWithSubfolder(app, 'Projects');
+            const selectionState = { ...createSelectionState(), selectedFolder: folder };
+
+            const { result, selectionDispatch, expansionDispatch } = captureInteractions(app, selectionState);
+
+            // wasSelected=true: the folder was already selected before the click sequence started
+            result.handleFolderDoubleClick(folder, true);
+
+            expect(selectionDispatch).toHaveBeenCalledWith({ type: 'REQUEST_LIST_SCROLL_TOP' });
+            expect(expansionDispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: 'TOGGLE_FOLDER_EXPANDED' }));
+        });
+
+        it('toggles expansion without requesting a scroll when an unselected folder with subfolders is double-clicked', () => {
+            const app = new App();
+            const selectedFolder = createTestFolder(app, 'Selected');
+            const otherFolder = createTestFolderWithSubfolder(app, 'Other');
+            const selectionState = { ...createSelectionState(), selectedFolder };
+
+            const { result, selectionDispatch, expansionDispatch } = captureInteractions(app, selectionState);
+
+            // wasSelected=false: a different folder was selected before this one was double-clicked
+            result.handleFolderDoubleClick(otherFolder, false);
+
+            expect(expansionDispatch).toHaveBeenCalledWith({ type: 'TOGGLE_FOLDER_EXPANDED', folderPath: 'Other' });
+            expect(selectionDispatch).not.toHaveBeenCalledWith({ type: 'REQUEST_LIST_SCROLL_TOP' });
+        });
+
+        it('does nothing when an unselected folder without subfolders is double-clicked', () => {
+            const app = new App();
+            const selectedFolder = createTestFolder(app, 'Selected');
+            const leafFolder = createTestFolder(app, 'Leaf');
+            const selectionState = { ...createSelectionState(), selectedFolder };
+
+            const { result, selectionDispatch, expansionDispatch } = captureInteractions(app, selectionState);
+
+            // wasSelected=false: unselected leaf folder — no scroll, and no subfolders to toggle
+            result.handleFolderDoubleClick(leafFolder, false);
+
+            expect(selectionDispatch).not.toHaveBeenCalledWith({ type: 'REQUEST_LIST_SCROLL_TOP' });
+            expect(expansionDispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: 'TOGGLE_FOLDER_EXPANDED' }));
+        });
     });
 });

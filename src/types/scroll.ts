@@ -24,7 +24,7 @@ export type Align = 'auto' | 'center' | 'start' | 'end';
 export type NavScrollIntent = 'selection' | 'startup' | 'reveal' | 'visibilityToggle' | 'external' | 'mobile-visibility';
 
 // List pane scroll intents
-export type ListScrollIntent = 'folder-navigation' | 'visibility-change' | 'reveal' | 'list-structure-change';
+export type ListScrollIntent = 'folder-navigation' | 'visibility-change' | 'reveal' | 'list-structure-change' | 'scroll-to-top';
 
 // Determine alignment for navigation pane based on intent and explicit override
 export function getNavAlign(intent?: NavScrollIntent): Align {
@@ -57,6 +57,13 @@ export function getListAlign(reason?: ListScrollIntent): Align {
         default:
             return 'auto';
     }
+}
+
+// Decide whether a list-scroll-to-top signal change should trigger a scroll.
+// The signal is a monotonically increasing nonce; a scroll is only emitted when the value actually changes,
+// so the initial mount (previous === next) never triggers an unwanted scroll.
+export function shouldEmitScrollTop(previousSignal: number, nextSignal: number): boolean {
+    return previousSignal !== nextSignal;
 }
 
 // Rank list pane pending requests for simple coalescing

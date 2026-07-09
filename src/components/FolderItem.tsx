@@ -79,6 +79,7 @@ interface FolderItemProps {
     isExcluded?: boolean;
     onToggle: () => void;
     onClick: () => void;
+    onDoubleClick?: (wasSelected: boolean) => void;
     onNameClick?: (event: React.MouseEvent<HTMLSpanElement>) => void;
     onNameMouseDown?: (event: React.MouseEvent<HTMLSpanElement>) => void;
     onToggleAllSiblings?: () => void;
@@ -119,6 +120,7 @@ export const FolderItem = React.memo(function FolderItem({
     isExcluded,
     onToggle,
     onClick,
+    onDoubleClick,
     onNameClick,
     onNameMouseDown,
     onToggleAllSiblings,
@@ -248,12 +250,29 @@ export const FolderItem = React.memo(function FolderItem({
         [fileSystemOps, folder, inlineRename]
     );
 
+    // Latches whether this folder was already selected at the start of a click sequence. The browser fires the
+    // leading onClick (which selects the folder) before the dblclick, so we must snapshot the pre-click selection
+    // state to distinguish "double-click already selected folder" (scroll to top) from "double-click other folder"
+    // (expand/collapse). Captured on mousedown to run before selection changes.
+    const wasSelectedBeforeClickSequenceRef = useRef(isSelected);
+
     // Stable event handlers
+    // Runs in the capture phase so it fires before the name span's own mousedown handler (which stops
+    // propagation), guaranteeing the latch updates regardless of which sub-element received the press.
+    const handleMouseDownCapture = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            // e.detail is 1 on the first press of a sequence and 2 on the second; only snapshot on the first
+            if (e.detail <= 1) {
+                wasSelectedBeforeClickSequenceRef.current = isSelected;
+            }
+        },
+        [isSelected]
+    );
+
+    // Forward to the navigation hook, which decides between expand/collapse and scrolling the list to top
     const handleDoubleClick = useCallback(() => {
-        if (hasChildren) {
-            onToggle();
-        }
-    }, [hasChildren, onToggle]);
+        onDoubleClick?.(wasSelectedBeforeClickSequenceRef.current);
+    }, [onDoubleClick]);
 
     const handleChevronClick = useCallback(
         (e: React.MouseEvent) => {
@@ -403,6 +422,7 @@ export const FolderItem = React.memo(function FolderItem({
             data-drop-path={folder.path}
             data-clickable="folder"
             data-level={level}
+            onMouseDownCapture={handleMouseDownCapture}
             onClick={onClick}
             onDoubleClick={handleDoubleClick}
             style={folderStyle}

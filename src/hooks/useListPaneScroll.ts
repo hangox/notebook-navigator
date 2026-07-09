@@ -50,7 +50,7 @@ import { useVirtualizer, Virtualizer } from '@tanstack/react-virtual';
 import { useServices } from '../context/ServicesContext';
 import { useFileCache } from '../context/StorageContext';
 import { ListPaneItemType, OVERSCAN } from '../types';
-import { Align, ListScrollIntent, getListAlign, rankListPending } from '../types/scroll';
+import { Align, ListScrollIntent, getListAlign, rankListPending, shouldEmitScrollTop } from '../types/scroll';
 import type { ListPaneItem } from '../types/virtualization';
 import {
     showsCharacterCount,
@@ -629,6 +629,8 @@ export function useListPaneScroll({
     const prevScrollPreservationConfigRef = useRef<PreviousScrollPreservationConfig | null>(null);
     const prevSearchQueryRef = useRef<string | undefined>(undefined); // Track search query changes
     const prevGroupCollapseStateSignatureRef = useRef<string>(groupCollapseStateSignature);
+    // Track the last handled scroll-to-top signal so only genuine increments trigger a scroll (never the initial mount)
+    const prevListScrollToTopSignalRef = useRef<number>(selectionState.listScrollToTopSignal);
 
     // ========== Scroll Orchestration ==========
     // Scroll reasons determine priority and alignment behavior
@@ -1664,6 +1666,26 @@ export function useListPaneScroll({
         requestPendingScroll,
         suppressSearchTopScrollRef
     ]);
+
+    /**
+     * Handle explicit "scroll list to top" requests (e.g. double-clicking the already selected folder).
+     * Driven by a monotonically increasing signal so the scroll fires even when the list context is unchanged.
+     * SCROLL_TO_TOP: Forces a top scroll, overriding any lower-priority pending request from the preceding clicks
+     */
+    useLayoutEffect(() => {
+        const signal = selectionState.listScrollToTopSignal;
+
+        // Skip the initial mount so a non-zero starting signal never triggers an unwanted scroll
+        if (!shouldEmitScrollTop(prevListScrollToTopSignalRef.current, signal)) {
+            return;
+        }
+        prevListScrollToTopSignalRef.current = signal;
+
+        // The preceding double-click clicks may have queued a file scroll (folder-navigation) that would
+        // otherwise outrank a top request. Drop the queue first so the explicit top scroll always wins.
+        clearPending();
+        requestPendingScroll({ type: 'top', reason: 'scroll-to-top', minIndexVersion: indexVersionRef.current });
+    }, [selectionState.listScrollToTopSignal, clearPending, requestPendingScroll]);
 
     return {
         rowVirtualizer,

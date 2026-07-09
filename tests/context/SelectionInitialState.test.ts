@@ -153,4 +153,13 @@ describe('loadInitialSelectionState', () => {
         ]);
         expect(state.navigationHistoryIndex).toBe(0);
     });
+
+    it('starts the list scroll-to-top signal at zero', () => {
+        // Must be 0, not undefined: the reducer increments this nonce, and undefined + 1 would be NaN,
+        // which would make the list scroll effect fire on every render.
+        const { app } = createAppWithRoot();
+        const state = loadInitialSelectionState({ app, settings: { ...DEFAULT_SETTINGS } });
+
+        expect(state.listScrollToTopSignal).toBe(0);
+    });
 });

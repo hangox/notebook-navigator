@@ -45,6 +45,8 @@ export interface SelectionState {
     revealSource: SelectionRevealSource | null;
     navigationHistory: SelectionHistoryEntry[];
     navigationHistoryIndex: number;
+    // Monotonically increasing nonce; bumped to request the list pane scroll back to the top
+    listScrollToTopSignal: number;
 }
 
 export type SelectionAction =
@@ -108,6 +110,7 @@ export type SelectionAction =
     | { type: 'SET_KEYBOARD_NAVIGATION'; isKeyboardNavigation: boolean }
     | { type: 'SET_FOLDER_CHANGE_WITH_AUTO_SELECT'; isFolderChangeWithAutoSelect: boolean }
     | { type: 'UPDATE_FILE_PATH'; oldPath: string; newPath: string }
-    | { type: 'SET_FOLDER_NAVIGATION'; isFolderNavigation: boolean };
+    | { type: 'SET_FOLDER_NAVIGATION'; isFolderNavigation: boolean }
+    | { type: 'REQUEST_LIST_SCROLL_TOP' };
 
 export type SelectionDispatch = Dispatch<SelectionAction>;

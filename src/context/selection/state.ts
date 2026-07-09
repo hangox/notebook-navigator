@@ -692,6 +692,13 @@ export function selectionReducer(state: SelectionState, action: SelectionAction,
                 isFolderNavigation: action.isFolderNavigation
             };
 
+        case 'REQUEST_LIST_SCROLL_TOP':
+            // Bump the nonce so the list pane scroll effect fires even when the list context is unchanged
+            return {
+                ...state,
+                listScrollToTopSignal: state.listScrollToTopSignal + 1
+            };
+
         case 'UPDATE_FILE_PATH': {
             const selectedFiles = new Set(state.selectedFiles);
             if (selectedFiles.has(action.oldPath)) {
