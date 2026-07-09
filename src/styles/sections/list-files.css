@@ -16,6 +16,8 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
+    /* Positioning context for the floating scroll-to-top button (bottom-inline-end overlay) */
+    position: relative;
 }
 
 .nn-list-pane-scroller {
