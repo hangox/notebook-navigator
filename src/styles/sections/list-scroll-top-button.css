@@ -21,7 +21,8 @@
     height: 32px;
     padding: 0;
     border: 1px solid var(--background-modifier-border);
-    border-radius: var(--radius-m);
+    /* Perfect circle: the button is always square (32x32 desktop / 44x44 mobile) */
+    border-radius: 50%;
     background-color: var(--background-secondary);
     color: var(--text-muted);
     box-shadow: var(--shadow-s);
