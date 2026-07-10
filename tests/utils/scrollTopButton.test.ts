@@ -17,7 +17,11 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { computeScrollTopButtonThresholds, shouldShowScrollTopButton } from '../../src/utils/scrollTopButton';
+import {
+    computeScrollTopButtonThresholds,
+    computeScrollTopGlidePlan,
+    shouldShowScrollTopButton
+} from '../../src/utils/scrollTopButton';
 
 // Fixed thresholds keep the hysteresis boundaries explicit and independent of viewport math
 const SHOW = 400;
@@ -113,5 +117,42 @@ describe('computeScrollTopButtonThresholds', () => {
             expect(show).toBe(160);
             expect(hide).toBeLessThan(show);
         }
+    });
+});
+
+describe('computeScrollTopGlidePlan', () => {
+    const CLIENT_HEIGHT = 1000; // far threshold = 2000, glide start = 1250
+
+    // Near distance (<= 2 viewports): glide directly, no teleport
+    it('returns an empty plan when scrolled within two viewports', () => {
+        expect(computeScrollTopGlidePlan(0, CLIENT_HEIGHT)).toEqual({});
+        expect(computeScrollTopGlidePlan(1500, CLIENT_HEIGHT)).toEqual({});
+        expect(computeScrollTopGlidePlan(2000, CLIENT_HEIGHT)).toEqual({}); // boundary is inclusive of "near"
+    });
+
+    // Far distance (> 2 viewports): teleport to ~1.25 viewports, then glide
+    it('teleports to between one and 1.5 viewports for far scrolls', () => {
+        for (const offset of [2001, 5000, 50000, Number.MAX_SAFE_INTEGER]) {
+            const plan = computeScrollTopGlidePlan(offset, CLIENT_HEIGHT);
+            expect(plan.immediateTop).toBeDefined();
+            const top = plan.immediateTop as number;
+            expect(top).toBeGreaterThanOrEqual(CLIENT_HEIGHT); // >= 1 viewport
+            expect(top).toBeLessThanOrEqual(CLIENT_HEIGHT * 1.5); // <= 1.5 viewports
+            expect(top).toBeLessThan(offset); // always moves upward
+        }
+        expect(computeScrollTopGlidePlan(2001, CLIENT_HEIGHT).immediateTop).toBe(1250);
+    });
+
+    // Pathological viewport sizes degrade to a plain direct glide (no teleport)
+    it('degrades safely for zero, negative, or non-finite viewport heights', () => {
+        for (const clientHeight of [0, -100, Number.NaN, Number.POSITIVE_INFINITY]) {
+            expect(computeScrollTopGlidePlan(999999, clientHeight)).toEqual({});
+        }
+    });
+
+    // A non-finite offset also degrades safely
+    it('degrades safely for non-finite offsets', () => {
+        expect(computeScrollTopGlidePlan(Number.NaN, CLIENT_HEIGHT)).toEqual({});
+        expect(computeScrollTopGlidePlan(Number.POSITIVE_INFINITY, CLIENT_HEIGHT)).toEqual({});
     });
 });

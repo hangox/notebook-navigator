@@ -91,3 +91,35 @@ export function shouldShowScrollTopButton({ offset, wasVisible, showThreshold, h
     }
     return wasVisible;
 }
+
+export interface ScrollTopGlidePlan {
+    // When set, jump here instantly (behavior:'auto') before the smooth glide to top so the animation
+    // covers a constant distance. Absent means "just smooth-scroll to top directly" (near distance).
+    immediateTop?: number;
+}
+
+// Beyond this many viewports from the top, native smooth scrolling animates for too long, so we
+// teleport most of the way first and only glide the final stretch.
+const FAR_DISTANCE_VIEWPORT_RATIO = 2;
+// Where the instant teleport lands: the smooth glide then always covers ~1.25 viewports.
+const GLIDE_START_VIEWPORT_RATIO = 1.25;
+
+/**
+ * Plans a "teleport then glide" scroll-to-top so the smooth animation duration stays roughly constant
+ * regardless of how far the list was scrolled. Far scrolls jump instantly to a fixed distance and glide
+ * the rest; near scrolls (and pathological viewport sizes) return an empty plan meaning "glide directly".
+ *
+ * @param offset - Current scrollTop in px
+ * @param clientHeight - Scroll container viewport height in px
+ */
+export function computeScrollTopGlidePlan(offset: number, clientHeight: number): ScrollTopGlidePlan {
+    // Pathological inputs: cannot reason about viewports, fall back to a plain direct glide
+    if (!Number.isFinite(offset) || !Number.isFinite(clientHeight) || clientHeight <= 0) {
+        return {};
+    }
+    // Near the top already: a direct smooth scroll is short enough
+    if (offset <= clientHeight * FAR_DISTANCE_VIEWPORT_RATIO) {
+        return {};
+    }
+    return { immediateTop: clientHeight * GLIDE_START_VIEWPORT_RATIO };
+}
