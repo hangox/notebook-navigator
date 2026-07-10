@@ -37,13 +37,13 @@ export interface ScrollTopButtonVisibilityInput {
     hideThreshold: number;
 }
 
-// Reveal roughly after one viewport of scrolling; hysteresis keeps the button from flickering
+// Reveal after roughly half a viewport of scrolling; hysteresis keeps the button from flickering
 // when the user hovers around the threshold. The hide point sits nearer the top so the button
 // only disappears once the list is scrolled back close to the beginning.
-const SHOW_THRESHOLD_VIEWPORT_RATIO = 1;
-const HIDE_THRESHOLD_VIEWPORT_RATIO = 0.5;
+const SHOW_THRESHOLD_VIEWPORT_RATIO = 0.5;
+const HIDE_THRESHOLD_VIEWPORT_RATIO = 0.25;
 // Floor for very short panes so the button never appears after a tiny scroll.
-const MIN_SHOW_THRESHOLD_PX = 160;
+const MIN_SHOW_THRESHOLD_PX = 80;
 
 /**
  * Derives the show/hide scroll offsets from the scroll container's viewport height.

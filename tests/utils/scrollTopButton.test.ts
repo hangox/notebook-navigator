@@ -98,23 +98,23 @@ describe('shouldShowScrollTopButton', () => {
 });
 
 describe('computeScrollTopButtonThresholds', () => {
-    it('derives one-viewport show and half-viewport hide with hide always below show', () => {
+    it('derives half-viewport show and quarter-viewport hide with hide always below show', () => {
         const { show, hide } = computeScrollTopButtonThresholds(1000);
-        expect(show).toBe(1000);
-        expect(hide).toBe(500);
+        expect(show).toBe(500); // 0.5 x viewport
+        expect(hide).toBe(250); // 0.25 x viewport
         expect(hide).toBeLessThan(show);
     });
 
     it('applies the minimum show floor for short panes', () => {
         const { show, hide } = computeScrollTopButtonThresholds(100);
-        expect(show).toBe(160); // floored at MIN_SHOW_THRESHOLD_PX
+        expect(show).toBe(80); // floored at MIN_SHOW_THRESHOLD_PX (0.5 x 100 = 50 < 80)
         expect(hide).toBeLessThan(show);
     });
 
     it('falls back to a sane band for zero or non-finite heights', () => {
         for (const clientHeight of [0, Number.NaN, Number.POSITIVE_INFINITY, -10]) {
             const { show, hide } = computeScrollTopButtonThresholds(clientHeight);
-            expect(show).toBe(160);
+            expect(show).toBe(80);
             expect(hide).toBeLessThan(show);
         }
     });
