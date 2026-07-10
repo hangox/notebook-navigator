@@ -63,7 +63,7 @@ import {
 import type { FileContentChange, FileData, IndexedDBStorage } from '../storage/IndexedDBStorage';
 import type { SelectionDispatch, SelectionState } from '../context/SelectionContext';
 import { calculateCompactListMetrics } from '../utils/listPaneMetrics';
-import { computeScrollTopButtonThresholds, shouldShowScrollTopButton } from '../utils/scrollTopButton';
+import { computeScrollTopButtonThresholds, computeScrollTopGlidePlan, shouldShowScrollTopButton } from '../utils/scrollTopButton';
 import {
     estimateFileRowHeight,
     type FileRowHeightConfig,
@@ -954,15 +954,35 @@ export function useListPaneScroll({
         }
     }, [enabled]);
 
-    // Smoothly returns the list pane to the top; used by the floating button on both desktop and mobile.
-    // Respects the user's reduced-motion preference by falling back to an instant jump.
+    // Returns the list pane to the top; used by the floating button on both desktop and mobile.
+    // Respects reduced-motion (instant jump). Otherwise uses a "teleport then glide" so the smooth
+    // animation duration stays roughly constant no matter how far the list was scrolled: for far
+    // scrolls it jumps instantly close to the top, then smooth-scrolls the final stretch next frame.
     const scrollListPaneToTop = useCallback(() => {
         const element = scrollContainerRef.current;
         if (!element) {
             return;
         }
+
         const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-        element.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        if (prefersReducedMotion) {
+            element.scrollTo({ top: 0, behavior: 'auto' });
+            return;
+        }
+
+        const plan = computeScrollTopGlidePlan(element.scrollTop, element.clientHeight);
+        if (plan.immediateTop === undefined) {
+            // Near distance: a direct smooth scroll is short enough
+            element.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        // Teleport instantly, then glide from a constant distance on the next frame. rAF separates the
+        // two scrollTo calls into different ticks so the webview does not coalesce/cancel the animation.
+        element.scrollTo({ top: plan.immediateTop, behavior: 'auto' });
+        window.requestAnimationFrame(() => {
+            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }, []);
 
     // Container is ready when both the list pane and the physical container are visible
