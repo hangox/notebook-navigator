@@ -507,6 +507,8 @@ export interface VaultProfile {
     fileVisibility: FileVisibility;
     propertyKeys: VaultProfilePropertyKey[];
     hiddenFolders: string[];
+    /** Folders excluded only from Recent Notes (does not affect the navigation pane) */
+    recentNotesExcludedFolders: string[];
     descendantExcludedFolders: string[];
     hiddenTags: string[];
     hiddenFileNames: string[];

@@ -1759,6 +1759,11 @@ export const STRINGS_EN = {
                 desc: 'Comma-separated list of folders to hide. Name patterns: assets* (folders starting with assets), *_temp (ending with _temp). Path patterns: /archive (root archive only), /res* (root folders starting with res), /*/temp (temp folders one level deep), /projects/* (all folders inside projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Exclude folders from descendants (vault profile)',
                 desc: 'Comma-separated list of folders to omit when collecting notes from subfolders. Folders remain visible, and selecting one still shows its notes. Uses the same patterns as Hide folders.',

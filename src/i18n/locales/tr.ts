@@ -1764,6 +1764,11 @@ export const STRINGS_TR = {
                 desc: 'Virgülle ayrılmış gizlenecek klasörler listesi. Ad desenleri: assets* (assets ile başlayan klasörler), *_temp (_temp ile biten). Yol desenleri: /archive (yalnızca kök arşiv), /res* (res ile başlayan kök klasörler), /*/temp (bir seviye derinlikte temp klasörleri), /projects/* (projects içindeki tüm klasörler).',
                 placeholder: 'şablonlar, assets*, /arşiv, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Klasörleri alt klasör notlarından hariç tut (kasa profili)',
                 desc: 'Alt klasörlerden notlar toplanırken atlanacak klasörlerin virgülle ayrılmış listesi. Klasörler görünür kalır ve birini seçmek yine notlarını gösterir. Klasörleri gizle ile aynı desenleri kullanır.',

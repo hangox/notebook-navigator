@@ -1763,6 +1763,11 @@ export const STRINGS_RU = {
                 desc: 'Список папок через запятую для скрытия. Шаблоны имён: assets* (папки, начинающиеся с assets), *_temp (заканчивающиеся на _temp). Шаблоны путей: /archive (только корневой archive), /res* (корневые папки, начинающиеся с res), /*/temp (папки temp на один уровень вглубь), /projects/* (все папки внутри projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Исключать папки из заметок подпапок (профиль хранилища)',
                 desc: 'Список папок через запятую, которые пропускаются при сборе заметок из подпапок. Папки остаются видимыми, и при выборе папки её заметки по-прежнему отображаются. Использует те же шаблоны, что и Скрыть папки.',

@@ -1767,6 +1767,11 @@ export const STRINGS_VI = {
                 desc: 'Danh sách thư mục cần ẩn phân cách bằng dấu phẩy. Mẫu tên: assets* (thư mục bắt đầu bằng assets), *_temp (kết thúc bằng _temp). Mẫu đường dẫn: /archive (chỉ archive gốc), /res* (thư mục gốc bắt đầu bằng res), /*/temp (thư mục temp ở độ sâu một cấp), /projects/* (tất cả thư mục trong projects).',
                 placeholder: 'mẫu, assets*, /lưu trữ, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Loại trừ thư mục khỏi ghi chú thư mục con (hồ sơ kho)',
                 desc: 'Danh sách thư mục phân cách bằng dấu phẩy sẽ được bỏ qua khi thu thập ghi chú từ thư mục con. Các thư mục vẫn hiển thị, và khi chọn một thư mục thì ghi chú của thư mục đó vẫn được hiển thị. Dùng cùng mẫu với Ẩn thư mục.',

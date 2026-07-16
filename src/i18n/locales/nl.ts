@@ -1769,6 +1769,11 @@ export const STRINGS_NL = {
                 desc: 'Kommagescheiden lijst van te verbergen mappen. Naampatronen: assets* (mappen beginnend met assets), *_temp (eindigend met _temp). Padpatronen: /archive (alleen root archive), /res* (root mappen beginnend met res), /*/temp (temp mappen één niveau diep), /projects/* (alle mappen binnen projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Mappen uitsluiten van notities uit submappen (kluisprofiel)',
                 desc: 'Kommagescheiden lijst met mappen die worden overgeslagen bij het verzamelen van notities uit submappen. Mappen blijven zichtbaar, en het selecteren van een map toont nog steeds de notities. Gebruikt dezelfde patronen als Mappen verbergen.',

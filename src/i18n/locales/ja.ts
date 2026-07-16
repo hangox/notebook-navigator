@@ -1732,6 +1732,11 @@ export const STRINGS_JA = {
                 desc: '非表示にするフォルダのカンマ区切りリスト。名前パターン: assets*（assetsで始まるフォルダ）、*_temp（_tempで終わる）。パスパターン: /archive（ルートのアーカイブのみ）、/res*（resで始まるルートフォルダ）、/*/temp（1階層下のtempフォルダ）、/projects/*（projects内のすべてのフォルダ）。',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'サブフォルダのノートからフォルダを除外（保管庫プロファイル）',
                 desc: 'サブフォルダからノートを収集するときに除外するフォルダのカンマ区切りリスト。フォルダは表示されたままで、選択するとそのノートは引き続き表示されます。「フォルダを非表示」と同じパターンを使用します。',

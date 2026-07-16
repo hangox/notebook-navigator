@@ -1770,6 +1770,11 @@ export const STRINGS_PL = {
                 desc: 'Lista folderów rozdzielonych przecinkami. Wzory nazw: assets* (foldery zaczynające się od assets), *_temp (kończące się na _temp). Wzory ścieżek: /archive (folder nadrzędny o nazwie archive), /res* (folder nadrzędny o nazwie zaczynającej się od res), /*/temp (foldery podrzędne o nazwie temp), /projects/* (wszystkie foldery wewnątrz folderu projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Wyklucz foldery z notatek z podfolderów (profil skarbca)',
                 desc: 'Lista folderów oddzielonych przecinkami, które mają być pomijane podczas zbierania notatek z podfolderów. Foldery pozostają widoczne, a wybranie folderu nadal pokazuje jego notatki. Używa tych samych wzorców co Ukryj foldery.',

@@ -1762,6 +1762,11 @@ export const STRINGS_KO = {
                 desc: '숨길 폴더의 쉼표로 구분된 목록입니다. 이름 패턴: assets* (assets로 시작하는 폴더), *_temp (_temp로 끝나는). 경로 패턴: /archive (루트 archive만), /res* (res로 시작하는 루트 폴더), /*/temp (한 레벨 깊이의 temp 폴더), /projects/* (projects 내부의 모든 폴더).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: '하위 폴더 노트에서 폴더 제외(볼트 프로필)',
                 desc: '하위 폴더에서 노트를 모을 때 제외할 폴더의 쉼표로 구분된 목록입니다. 폴더는 계속 표시되며, 선택하면 해당 노트가 계속 표시됩니다. 폴더 숨기기와 같은 패턴을 사용합니다.',

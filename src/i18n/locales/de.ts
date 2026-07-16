@@ -1740,6 +1740,11 @@ export const STRINGS_DE = {
                 desc: 'Kommagetrennte Liste von auszublendenden Ordnern. Namensmuster: assets* (Ordner die mit assets beginnen), *_temp (endet mit _temp). Pfadmuster: /archive (nur Wurzel-Archive), /res* (Wurzelordner die mit res beginnen), /*/temp (temp-Ordner eine Ebene tief), /projects/* (alle Ordner in projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Ordner aus Unterordner-Notizen ausschließen (Tresorprofil)',
                 desc: 'Kommagetrennte Liste von Ordnern, die beim Sammeln von Notizen aus Unterordnern ausgelassen werden. Die Ordner bleiben sichtbar, und beim Auswählen eines Ordners werden seine Notizen weiterhin angezeigt. Verwendet dieselben Muster wie Ordner verstecken.',

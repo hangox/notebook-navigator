@@ -1765,6 +1765,11 @@ export const STRINGS_IT = {
                 desc: 'Lista di cartelle da nascondere separate da virgola. Pattern nome: assets* (cartelle che iniziano con assets), *_temp (che finiscono con _temp). Pattern percorso: /archivio (solo archivio root), /res* (cartelle root che iniziano con res), /*/temp (cartelle temp un livello sotto), /progetti/* (tutte le cartelle in progetti).',
                 placeholder: 'modelli, assets*, /archivio, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Escludi cartelle dalle note delle sottocartelle (profilo vault)',
                 desc: 'Lista di cartelle separate da virgola da ignorare quando vengono raccolte le note dalle sottocartelle. Le cartelle restano visibili e selezionandone una vengono comunque mostrate le sue note. Usa gli stessi pattern di Nascondi cartelle.',

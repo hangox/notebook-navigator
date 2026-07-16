@@ -130,6 +130,7 @@ export const DEFAULT_SETTINGS: NotebookNavigatorSettings = {
             fileVisibility: FILE_VISIBILITY.SUPPORTED,
             propertyKeys: [],
             hiddenFolders: [],
+            recentNotesExcludedFolders: [],
             descendantExcludedFolders: [],
             hiddenTags: [],
             hiddenFileNames: [],

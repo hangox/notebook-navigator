@@ -1758,6 +1758,11 @@ export const STRINGS_TH = {
                 desc: 'รายการโฟลเดอร์คั่นด้วยเครื่องหมายจุลภาคที่จะซ่อน รูปแบบชื่อ: assets* (โฟลเดอร์ที่เริ่มด้วย assets), *_temp (ลงท้ายด้วย _temp) รูปแบบเส้นทาง: /archive (archive หลักเท่านั้น), /res* (โฟลเดอร์หลักที่เริ่มด้วย res), /*/temp (โฟลเดอร์ temp ลึกหนึ่งระดับ), /projects/* (โฟลเดอร์ทั้งหมดใน projects)',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'ยกเว้นโฟลเดอร์จากโน้ตในโฟลเดอร์ย่อย (โปรไฟล์คลัง)',
                 desc: 'รายการโฟลเดอร์คั่นด้วยเครื่องหมายจุลภาคที่จะละเว้นเมื่อรวบรวมโน้ตจากโฟลเดอร์ย่อย โฟลเดอร์ยังคงมองเห็นได้ และเมื่อเลือกโฟลเดอร์นั้นจะยังแสดงโน้ตของโฟลเดอร์นั้น ใช้รูปแบบเดียวกับซ่อนโฟลเดอร์',

@@ -84,6 +84,28 @@ export function createDisplayFiltersSettingDefinitions(context: SettingsTabConte
                 }
             }),
             createRenderDefinition({
+                name: strings.settings.items.recentNotesExcludedFolders.name,
+                desc: strings.settings.items.recentNotesExcludedFolders.desc,
+                aliases: [strings.settings.items.recentNotesExcludedFolders.placeholder],
+                render: setting => {
+                    context.configureDebouncedTextSetting(
+                        setting,
+                        strings.settings.items.recentNotesExcludedFolders.name,
+                        strings.settings.items.recentNotesExcludedFolders.desc,
+                        strings.settings.items.recentNotesExcludedFolders.placeholder,
+                        () => formatCommaSeparatedList(getActiveProfile()?.recentNotesExcludedFolders ?? []),
+                        value => {
+                            const activeProfile = getActiveProfile();
+                            if (!activeProfile) {
+                                return;
+                            }
+                            activeProfile.recentNotesExcludedFolders = Array.from(new Set(parseCommaSeparatedList(value)));
+                        }
+                    );
+                    setting.controlEl.addClass('nn-setting-wide-input');
+                }
+            }),
+            createRenderDefinition({
                 name: strings.settings.items.descendantExcludedFolders.name,
                 desc: strings.settings.items.descendantExcludedFolders.desc,
                 aliases: [strings.settings.items.descendantExcludedFolders.placeholder],
