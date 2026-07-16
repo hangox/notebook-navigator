@@ -483,3 +483,77 @@ describe('fileFinder getFilesForProperty', () => {
         expect(files.map(file => file.path)).toEqual([keyOnlyFile.path, valueFile.path]);
     });
 });
+
+// 「最近内容独立排除文件夹」在 List Pane 跨文件夹时间聚合列表里的行为。
+// recentNotesExcludedFolders 仅在"从祖先/根聚合"时略过对应文件夹，
+// 但选中该文件夹本身（或其子文件夹）时仍完整显示，保证隔离性。
+describe('fileFinder getFilesForFolder - recentNotesExcludedFolders', () => {
+    beforeEach(() => {
+        fileDataByPath.clear();
+    });
+
+    // 构造一棵含 wiki（带嵌套 concepts）、media、other 的树
+    function buildVault() {
+        const rootNote = createTestTFile('Root.md');
+        const wikiNote = createTestTFile('wiki/note.md');
+        const wikiConceptNote = createTestTFile('wiki/concepts/容器化运行.md');
+        const mediaNote = createTestTFile('media/img-note.md');
+        const otherNote = createTestTFile('other/y.md');
+
+        const wikiConceptsFolder = createFolder('wiki/concepts', [wikiConceptNote]);
+        const wikiFolder = createFolder('wiki', [wikiNote, wikiConceptsFolder]);
+        const mediaFolder = createFolder('media', [mediaNote]);
+        const otherFolder = createFolder('other', [otherNote]);
+        const rootFolder = createFolder('', [rootNote, wikiFolder, mediaFolder, otherFolder]);
+
+        const app = createAppWithFiles([rootNote, wikiNote, wikiConceptNote, mediaNote, otherNote]);
+        return { rootFolder, wikiFolder, wikiConceptsFolder, app };
+    }
+
+    const descendantVisibility: VisibilityPreferences = { includeDescendantNotes: true, showHiddenItems: false };
+
+    it('recentNotesExcludedFolders=[] 时行为与旧版完全一致（回归护栏）', () => {
+        const { rootFolder, app } = buildVault();
+        const settings = createSettings({ recentNotesExcludedFolders: [] });
+        expect(toSortedPaths(getFilesForFolder(rootFolder, settings, descendantVisibility, app))).toEqual([
+            'Root.md',
+            'media/img-note.md',
+            'other/y.md',
+            'wiki/concepts/容器化运行.md',
+            'wiki/note.md'
+        ]);
+    });
+
+    it('选中 vault 根时，wiki（含嵌套子孙）从时间聚合列表中排除', () => {
+        const { rootFolder, app } = buildVault();
+        const settings = createSettings({ recentNotesExcludedFolders: ['wiki'] });
+        expect(toSortedPaths(getFilesForFolder(rootFolder, settings, descendantVisibility, app))).toEqual([
+            'Root.md',
+            'media/img-note.md',
+            'other/y.md'
+        ]);
+    });
+
+    it('选中 wiki 文件夹本身时，完整显示直接子笔记 + 嵌套子孙笔记（隔离性-直接命中）', () => {
+        const { wikiFolder, app } = buildVault();
+        const settings = createSettings({ recentNotesExcludedFolders: ['wiki'] });
+        expect(toSortedPaths(getFilesForFolder(wikiFolder, settings, descendantVisibility, app))).toEqual([
+            'wiki/concepts/容器化运行.md',
+            'wiki/note.md'
+        ]);
+    });
+
+    it('选中 wiki/concepts 子文件夹时，完整显示其下笔记（隔离性-祖先命中）', () => {
+        const { wikiConceptsFolder, app } = buildVault();
+        const settings = createSettings({ recentNotesExcludedFolders: ['wiki'] });
+        expect(toSortedPaths(getFilesForFolder(wikiConceptsFolder, settings, descendantVisibility, app))).toEqual([
+            'wiki/concepts/容器化运行.md'
+        ]);
+    });
+
+    it('hiddenFolders 与 recentNotesExcludedFolders 独立并存：根聚合同时排除 media 与 wiki', () => {
+        const { rootFolder, app } = buildVault();
+        const settings = createSettings({ hiddenFolders: ['media'], recentNotesExcludedFolders: ['wiki'] });
+        expect(toSortedPaths(getFilesForFolder(rootFolder, settings, descendantVisibility, app))).toEqual(['Root.md', 'other/y.md']);
+    });
+});

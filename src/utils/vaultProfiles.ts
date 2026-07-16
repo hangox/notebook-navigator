@@ -944,6 +944,11 @@ export function getActiveDescendantExcludedFolders(settings: NotebookNavigatorSe
     return getActiveVaultProfile(settings).descendantExcludedFolders;
 }
 
+// Returns the list of folders excluded only from Recent Notes / cross-folder time-ordered lists
+export function getActiveRecentNotesExcludedFolders(settings: NotebookNavigatorSettings): string[] {
+    return getActiveVaultProfile(settings).recentNotesExcludedFolders;
+}
+
 export function getActiveHiddenFileNames(settings: NotebookNavigatorSettings): string[] {
     return getActiveVaultProfile(settings).hiddenFileNames;
 }
