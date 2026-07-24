@@ -1786,7 +1786,11 @@ export const STRINGS_KO = {
             },
             showFileTags: {
                 name: '파일 태그 표시',
-                desc: '파일 항목에 클릭 가능한 태그를 표시합니다.'
+                desc: '파일 항목에 태그를 표시합니다.'
+            },
+            enableFileTagNavigation: {
+                name: '파일 태그 탐색 활성화',
+                desc: '파일 태그를 클릭하면 태그 섹션의 해당 태그로 이동합니다.'
             },
             showFileTagAncestors: {
                 name: '전체 태그 경로 표시',

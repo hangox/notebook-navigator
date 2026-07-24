@@ -1788,7 +1788,11 @@ export const STRINGS_TR = {
             },
             showFileTags: {
                 name: 'Dosya etiketlerini göster',
-                desc: 'Dosya öğelerinde tıklanabilir etiketleri görüntüle.'
+                desc: 'Dosya öğelerinde etiketleri görüntüle.'
+            },
+            enableFileTagNavigation: {
+                name: 'Dosya etiketi gezintisini etkinleştir',
+                desc: 'Etiketler bölümünde ilgili etikete gitmek için dosya etiketine tıklayın.'
             },
             showFileTagAncestors: {
                 name: 'Tam etiket yollarını göster',

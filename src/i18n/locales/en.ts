@@ -1783,7 +1783,11 @@ export const STRINGS_EN = {
             },
             showFileTags: {
                 name: 'Show file tags',
-                desc: 'Display clickable tags in file items.'
+                desc: 'Display tags in file items.'
+            },
+            enableFileTagNavigation: {
+                name: 'Enable file tag navigation',
+                desc: 'Click a file tag to navigate to it in the Tags section.'
             },
             showFileTagAncestors: {
                 name: 'Show full tag paths',

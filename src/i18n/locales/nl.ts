@@ -1793,7 +1793,11 @@ export const STRINGS_NL = {
             },
             showFileTags: {
                 name: 'Bestandstags tonen',
-                desc: 'Klikbare tags weergeven in bestandsitems.'
+                desc: 'Tags weergeven in bestandsitems.'
+            },
+            enableFileTagNavigation: {
+                name: 'Navigatie via bestandstags inschakelen',
+                desc: 'Klik op een bestandstag om ernaartoe te navigeren in de sectie Tags.'
             },
             showFileTagAncestors: {
                 name: 'Volledige tagpaden tonen',

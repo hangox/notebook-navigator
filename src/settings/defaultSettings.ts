@@ -366,6 +366,7 @@ export const DEFAULT_SETTINGS: NotebookNavigatorSettings = {
     forceSquareFeatureImage: true,
     downloadExternalFeatureImages: true,
     showFileTags: true,
+    enableFileTagNavigation: true,
     colorFileTags: true,
     prioritizeColoredFileTags: true,
     showFileTagAncestors: false,

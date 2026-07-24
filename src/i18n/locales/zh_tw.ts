@@ -1776,7 +1776,11 @@ export const STRINGS_ZH_TW = {
             },
             showFileTags: {
                 name: '顯示檔案標籤',
-                desc: '在檔案項目中顯示可點按的標籤。'
+                desc: '在檔案項目中顯示標籤。'
+            },
+            enableFileTagNavigation: {
+                name: '啟用檔案標籤點擊跳轉',
+                desc: '點擊檔案標籤可跳轉到標籤導覽中的對應標籤。'
             },
             showFileTagAncestors: {
                 name: '顯示完整標籤路徑',

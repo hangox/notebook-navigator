@@ -1784,7 +1784,11 @@ export const STRINGS_AR = {
             },
             showFileTags: {
                 name: 'إظهار وسوم الملفات',
-                desc: 'عرض وسوم قابلة للنقر في عناصر الملفات.'
+                desc: 'عرض الوسوم في عناصر الملفات.'
+            },
+            enableFileTagNavigation: {
+                name: 'تمكين التنقل عبر وسوم الملفات',
+                desc: 'انقر على وسم ملف للانتقال إليه في قسم التنقل بالوسوم.'
             },
             showFileTagAncestors: {
                 name: 'إظهار مسارات الوسوم الكاملة',

@@ -1789,7 +1789,11 @@ export const STRINGS_IT = {
             },
             showFileTags: {
                 name: 'Mostra tag file',
-                desc: 'Visualizza tag cliccabili negli elementi file.'
+                desc: 'Visualizza i tag negli elementi file.'
+            },
+            enableFileTagNavigation: {
+                name: 'Abilita la navigazione dei tag dei file',
+                desc: 'Fai clic su un tag di file per raggiungerlo nella sezione Tag.'
             },
             showFileTagAncestors: {
                 name: 'Mostra percorsi tag completi',

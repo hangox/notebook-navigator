@@ -1776,7 +1776,11 @@ export const STRINGS_ZH_CN = {
             },
             showFileTags: {
                 name: '显示文件标签',
-                desc: '在文件项中显示可点击的标签。'
+                desc: '在文件项中显示标签。'
+            },
+            enableFileTagNavigation: {
+                name: '启用文件标签点击跳转',
+                desc: '点击文件标签可跳转到标签导航中的对应标签。'
             },
             showFileTagAncestors: {
                 name: '显示完整标签路径',

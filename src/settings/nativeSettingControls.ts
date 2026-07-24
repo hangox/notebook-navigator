@@ -132,6 +132,7 @@ const BOOLEAN_SETTING_KEYS = [
     'forceSquareFeatureImage',
     'downloadExternalFeatureImages',
     'showFileTags',
+    'enableFileTagNavigation',
     'colorFileTags',
     'prioritizeColoredFileTags',
     'showFileTagAncestors',

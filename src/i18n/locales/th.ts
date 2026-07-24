@@ -1782,7 +1782,11 @@ export const STRINGS_TH = {
             },
             showFileTags: {
                 name: 'แสดงแท็กไฟล์',
-                desc: 'แสดงแท็กที่คลิกได้ในรายการไฟล์'
+                desc: 'แสดงแท็กในรายการไฟล์'
+            },
+            enableFileTagNavigation: {
+                name: 'เปิดใช้การนำทางด้วยแท็กไฟล์',
+                desc: 'คลิกแท็กไฟล์เพื่อไปยังแท็กนั้นในส่วนแท็ก'
             },
             showFileTagAncestors: {
                 name: 'แสดงเส้นทางแท็กเต็ม',

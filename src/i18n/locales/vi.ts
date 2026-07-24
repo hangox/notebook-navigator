@@ -1791,7 +1791,11 @@ export const STRINGS_VI = {
             },
             showFileTags: {
                 name: 'Hiện thẻ tệp',
-                desc: 'Hiển thị thẻ có thể nhấn trong mục tệp.'
+                desc: 'Hiển thị thẻ trong mục tệp.'
+            },
+            enableFileTagNavigation: {
+                name: 'Bật điều hướng thẻ tệp',
+                desc: 'Nhấp vào thẻ tệp để chuyển đến thẻ đó trong phần Thẻ.'
             },
             showFileTagAncestors: {
                 name: 'Hiện đường dẫn thẻ đầy đủ',

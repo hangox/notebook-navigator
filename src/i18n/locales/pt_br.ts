@@ -1794,7 +1794,11 @@ export const STRINGS_PT_BR = {
             },
             showFileTags: {
                 name: 'Mostrar tags de arquivo',
-                desc: 'Exibir tags clicáveis em itens de arquivo.'
+                desc: 'Exibir tags em itens de arquivo.'
+            },
+            enableFileTagNavigation: {
+                name: 'Ativar navegação por tags de arquivo',
+                desc: 'Clique em uma tag de arquivo para navegar até ela na seção Tags.'
             },
             showFileTagAncestors: {
                 name: 'Mostrar caminhos completos de tags',

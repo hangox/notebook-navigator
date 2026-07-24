@@ -1790,7 +1790,11 @@ export const STRINGS_ID = {
             },
             showFileTags: {
                 name: 'Tampilkan tag file',
-                desc: 'Tampilkan tag yang dapat diklik di item file.'
+                desc: 'Tampilkan tag di item file.'
+            },
+            enableFileTagNavigation: {
+                name: 'Aktifkan navigasi tag file',
+                desc: 'Klik tag file untuk menavigasi ke tag tersebut di bagian Tag.'
             },
             showFileTagAncestors: {
                 name: 'Tampilkan path tag lengkap',

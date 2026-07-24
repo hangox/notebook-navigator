@@ -727,6 +727,7 @@ export interface NotebookNavigatorSettings {
     forceSquareFeatureImage: boolean;
     downloadExternalFeatureImages: boolean;
     showFileTags: boolean;
+    enableFileTagNavigation: boolean;
     colorFileTags: boolean;
     prioritizeColoredFileTags: boolean;
     showFileTagAncestors: boolean;

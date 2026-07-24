@@ -1788,7 +1788,11 @@ export const STRINGS_JA = {
             },
             showFileTags: {
                 name: 'ファイルタグを表示',
-                desc: 'ファイルアイテムにクリック可能なタグを表示します。'
+                desc: 'ファイルアイテムにタグを表示します。'
+            },
+            enableFileTagNavigation: {
+                name: 'ファイルタグのナビゲーションを有効にする',
+                desc: 'ファイルタグをクリックすると、タグセクションの該当タグに移動します。'
             },
             showFileTagAncestors: {
                 name: '完全なタグパスを表示',

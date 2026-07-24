@@ -1796,7 +1796,11 @@ export const STRINGS_DE = {
             },
             showFileTags: {
                 name: 'Datei-Tags anzeigen',
-                desc: 'Zeigt klickbare Tags in Datei-Elementen an.'
+                desc: 'Tags in Dateielementen anzeigen.'
+            },
+            enableFileTagNavigation: {
+                name: 'Navigation über Datei-Tags aktivieren',
+                desc: 'Beim Klicken auf ein Datei-Tag wird zum entsprechenden Tag im Navigationsbereich gewechselt.'
             },
             showFileTagAncestors: {
                 name: 'Vollständige Tag-Pfade anzeigen',

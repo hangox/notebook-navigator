@@ -1792,7 +1792,11 @@ export const STRINGS_PT = {
             },
             showFileTags: {
                 name: 'Mostrar etiquetas de ficheiros',
-                desc: 'Exibir etiquetas clicáveis nos itens de ficheiros.'
+                desc: 'Exibir etiquetas nos itens de ficheiros.'
+            },
+            enableFileTagNavigation: {
+                name: 'Ativar navegação por etiquetas de ficheiros',
+                desc: 'Clique numa etiqueta de ficheiro para navegar até ela na secção Etiquetas.'
             },
             showFileTagAncestors: {
                 name: 'Mostrar caminhos completos de etiquetas',
