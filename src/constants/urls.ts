@@ -20,7 +20,9 @@ const NOTEBOOK_NAVIGATOR_REPOSITORY = 'johansan/notebook-navigator';
 const NOTEBOOK_NAVIGATOR_RAW_BASE_URL = `https://raw.githubusercontent.com/${NOTEBOOK_NAVIGATOR_REPOSITORY}/main`;
 const NOTEBOOK_NAVIGATOR_CDN_BASE_URL = `https://cdn.jsdelivr.net/gh/${NOTEBOOK_NAVIGATOR_REPOSITORY}@main`;
 
-export const NOTEBOOK_NAVIGATOR_RELEASE_CHECK_URL = `https://api.github.com/repos/${NOTEBOOK_NAVIGATOR_REPOSITORY}/releases/latest`;
+// Fork 独立于上游发布，"检查更新"必须查自己仓库的 release，不能查上游（否则会把上游的新版本误报成本 fork 的更新）
+const NOTEBOOK_NAVIGATOR_RELEASE_CHECK_REPOSITORY = 'hangox/notebook-navigator';
+export const NOTEBOOK_NAVIGATOR_RELEASE_CHECK_URL = `https://api.github.com/repos/${NOTEBOOK_NAVIGATOR_RELEASE_CHECK_REPOSITORY}/releases/latest`;
 
 export const SUPPORT_SPONSOR_URL = 'https://github.com/sponsors/johansan/';
 export const SUPPORT_BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/johansan';
