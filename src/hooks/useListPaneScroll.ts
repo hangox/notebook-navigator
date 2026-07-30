@@ -63,6 +63,7 @@ import {
 import type { FileContentChange, FileData, IndexedDBStorage } from '../storage/IndexedDBStorage';
 import type { SelectionDispatch, SelectionState } from '../context/SelectionContext';
 import { calculateCompactListMetrics } from '../utils/listPaneMetrics';
+import { computeScrollTopButtonThresholds, computeScrollTopGlidePlan, shouldShowScrollTopButton } from '../utils/scrollTopButton';
 import {
     estimateFileRowHeight,
     type FileRowHeightConfig,
@@ -226,6 +227,10 @@ interface UseListPaneScrollResult {
     handleScrollToTop: () => void;
     /** Scrolls a list index into view while accounting for overlay chrome */
     scrollToIndexSafely: (index: number, align: Align) => void;
+    /** Whether the floating "scroll to top" button should be shown (desktop + mobile) */
+    showScrollTopButton: boolean;
+    /** Smoothly scrolls the list pane back to the top (floating button click) */
+    scrollListPaneToTop: () => void;
 }
 
 // Path-index maps can be recreated with the same contents. Keep indexVersion tied to effective mapping changes.
@@ -621,6 +626,12 @@ export function useListPaneScroll({
     const [scrollContainerEl, setScrollContainerEl] = useState<HTMLDivElement | null>(null);
     const [containerVisible, setContainerVisible] = useState<boolean>(false);
     const containerVisibleRef = useRef(false);
+
+    // Floating "scroll to top" button visibility. The ref mirrors the state so the passive scroll
+    // listener can read the latest value without re-subscribing, and we only call setState when the
+    // boolean actually flips (never on every scroll frame) to avoid re-rendering the virtual list.
+    const [showScrollTopButton, setShowScrollTopButton] = useState(false);
+    const showScrollTopButtonRef = useRef(false);
     const onVirtualizerScrollingChangeRef = useRef(onVirtualizerScrollingChange);
     const onScrollContainerVisibilityChangeRef = useRef(onScrollContainerVisibilityChange);
 
@@ -833,6 +844,22 @@ export function useListPaneScroll({
             if (!enabled) {
                 return;
             }
+
+            // Update floating scroll-to-top button visibility from the current offset. Runs before the
+            // isScrolling early-returns below so it fires on every change. Only setState on a boolean flip,
+            // keeping the virtual list off the render path during scrolling (no re-render storm).
+            const thresholds = computeScrollTopButtonThresholds(instance.scrollElement?.clientHeight ?? 0);
+            const nextButtonVisible = shouldShowScrollTopButton({
+                offset: instance.scrollOffset ?? Number.NaN,
+                wasVisible: showScrollTopButtonRef.current,
+                showThreshold: thresholds.show,
+                hideThreshold: thresholds.hide
+            });
+            if (nextButtonVisible !== showScrollTopButtonRef.current) {
+                showScrollTopButtonRef.current = nextButtonVisible;
+                setShowScrollTopButton(nextButtonVisible);
+            }
+
             const nextIsScrolling = instance.isScrolling;
             if (nextIsScrolling && !containerVisibleRef.current) {
                 return;
@@ -914,6 +941,49 @@ export function useListPaneScroll({
 
         return () => observer.disconnect();
     }, [enabled, reportContainerVisibility, scrollContainerEl]);
+
+    /**
+     * Reset the floating "scroll to top" button when the list is disabled (e.g. manual-sort mode).
+     * While enabled, visibility is driven entirely by the virtualizer onChange handler above, so this
+     * only guards the disabled transition; re-enabling starts from a clean hidden state.
+     */
+    useEffect(() => {
+        if (!enabled && showScrollTopButtonRef.current) {
+            showScrollTopButtonRef.current = false;
+            setShowScrollTopButton(false);
+        }
+    }, [enabled]);
+
+    // Returns the list pane to the top; used by the floating button on both desktop and mobile.
+    // Respects reduced-motion (instant jump). Otherwise uses a "teleport then glide" so the smooth
+    // animation duration stays roughly constant no matter how far the list was scrolled: for far
+    // scrolls it jumps instantly close to the top, then smooth-scrolls the final stretch next frame.
+    const scrollListPaneToTop = useCallback(() => {
+        const element = scrollContainerRef.current;
+        if (!element) {
+            return;
+        }
+
+        const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+        if (prefersReducedMotion) {
+            element.scrollTo({ top: 0, behavior: 'auto' });
+            return;
+        }
+
+        const plan = computeScrollTopGlidePlan(element.scrollTop, element.clientHeight);
+        if (plan.immediateTop === undefined) {
+            // Near distance: a direct smooth scroll is short enough
+            element.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        // Teleport instantly, then glide from a constant distance on the next frame. rAF separates the
+        // two scrollTo calls into different ticks so the webview does not coalesce/cancel the animation.
+        element.scrollTo({ top: plan.immediateTop, behavior: 'auto' });
+        window.requestAnimationFrame(() => {
+            scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }, []);
 
     // Container is ready when both the list pane and the physical container are visible
     const isScrollContainerReady = enabled && isVisible && containerVisible;
@@ -1670,6 +1740,8 @@ export function useListPaneScroll({
         scrollContainerRef,
         scrollContainerRefCallback,
         handleScrollToTop,
-        scrollToIndexSafely
+        scrollToIndexSafely,
+        showScrollTopButton,
+        scrollListPaneToTop
     };
 }

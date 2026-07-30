@@ -73,6 +73,7 @@ import { SearchInput } from './SearchInput';
 import { ListPaneTitleArea } from './ListPaneTitleArea';
 import { ListPaneVirtualContent, getHoveredFilePathAtPointer, type PointerClientPosition } from './listPane/ListPaneVirtualContent';
 import { ManualSortListContent } from './listPane/ManualSortListContent';
+import { ListScrollToTopButton } from './listPane/ListScrollToTopButton';
 import type { FileItemStorageHelpers } from './FileItem';
 import { type SearchShortcut } from '../types/shortcuts';
 import { type SearchNavFilterState } from '../types/search';
@@ -936,8 +937,15 @@ export const ListPane = React.memo(
         ]);
 
         // Use the new scroll hook
-        const { rowVirtualizer, scrollContainerRef, scrollContainerRefCallback, handleScrollToTop, scrollToIndexSafely } =
-            useListPaneScroll({
+        const {
+            rowVirtualizer,
+            scrollContainerRef,
+            scrollContainerRefCallback,
+            handleScrollToTop,
+            scrollToIndexSafely,
+            showScrollTopButton,
+            scrollListPaneToTop
+        } = useListPaneScroll({
                 enabled: !isManualSortEditActive,
                 listItems,
                 filePathToIndex,
@@ -1885,6 +1893,10 @@ export const ListPane = React.memo(
                             getSolidBackground={getSolidBackground}
                         />
                     )}
+                    {/* Floating scroll-to-top button; only meaningful for the virtualized list (not manual sort) */}
+                    {!manualSortEditState ? (
+                        <ListScrollToTopButton visible={showScrollTopButton} onClick={scrollListPaneToTop} />
+                    ) : null}
                     {/* iOS: keep the floating toolbar inside the panel */}
                     {shouldRenderBottomToolbarInsidePanel && !manualSortEditState ? (
                         <div className="nn-pane-bottom-toolbar">{listToolbar}</div>

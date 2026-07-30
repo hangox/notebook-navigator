@@ -3583,6 +3583,8 @@ button.nn-navigation-calendar-day {
     min-height: 0;
     display: flex;
     flex-direction: column;
+    /* Positioning context for the floating scroll-to-top button (bottom-inline-end overlay) */
+    position: relative;
 }
 
 .nn-list-pane-scroller {
@@ -5005,6 +5007,78 @@ button.nn-list-group-header-collapse-button .nn-list-group-header-icon {
 .nn-split-container.nn-orientation-vertical:not(.nn-single-pane) .nn-skeleton-navigation-pane .nn-skeleton-content {
     border-right: none;
     border-bottom: 1px solid var(--nn-theme-divider-border-color);
+}
+/* Source: src/styles/sections/list-scroll-top-button.css */
+
+/* ========================================================================
+   List pane floating "scroll to top" button
+   ========================================================================
+   Anchored to the bottom-inline-end of `.nn-list-pane-panel` (which owns the
+   positioning context). It overlays the scroller without scrolling with it, and
+   fades in/out via the `.nn-visible` modifier so the transition plays both ways.
+*/
+
+.nn-list-scroll-top-button {
+    position: absolute;
+    bottom: var(--size-4-4);
+    inset-inline-end: var(--size-4-4);
+    /* Above sticky group headers (z-index up to 200) but below the resize handle (300) and drag layer */
+    z-index: 250;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--background-modifier-border);
+    /* Perfect circle: the button is always square (32x32 desktop / 44x44 mobile) */
+    border-radius: 50%;
+    background-color: var(--background-secondary);
+    color: var(--text-muted);
+    box-shadow: var(--shadow-s);
+    cursor: pointer;
+    /* Hidden by default; the JS-driven hysteresis toggles `.nn-visible` */
+    opacity: 0;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease;
+}
+
+.nn-list-scroll-top-button.nn-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.nn-list-scroll-top-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.nn-desktop .nn-list-scroll-top-button:hover {
+    color: var(--text-normal);
+    background-color: var(--background-modifier-hover);
+}
+
+.nn-list-scroll-top-button:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* Larger touch target on mobile (>= 44px) */
+.notebook-navigator-mobile .nn-list-scroll-top-button {
+    width: 44px;
+    height: 44px;
+    bottom: var(--size-4-3);
+    inset-inline-end: var(--size-4-3);
+}
+
+/* Honor reduced-motion: drop the fade/slide transition (visibility still toggles instantly) */
+@media (prefers-reduced-motion: reduce) {
+    .nn-list-scroll-top-button {
+        transition: none;
+    }
 }
 /* Source: src/styles/sections/inline-rename.css */
 
