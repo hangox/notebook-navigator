@@ -1796,6 +1796,11 @@ export const STRINGS_FA = {
                 desc: 'لیست پوشه‌های جدا شده با کاما برای مخفی کردن. الگوهای نام: assets* (پوشه‌های شروع‌شده با assets)، *_temp (پایان‌یافته با _temp). الگوهای مسیر: /archive (فقط archive اصلی)، /res* (پوشه‌های اصلی شروع‌شده با res)، /*/temp (پوشه‌های temp یک سطح عمیق)، /projects/* (همه پوشه‌های داخل projects).',
                 placeholder: 'قالب‌ها، assets*، /archive، /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'مستثنی کردن پوشه‌ها از یادداشت‌های زیرپوشه‌ها (نمایه خزانه)',
                 desc: 'فهرست پوشه‌های جداشده با کاما که هنگام جمع‌آوری یادداشت‌ها از زیرپوشه‌ها نادیده گرفته می‌شوند. پوشه‌ها همچنان قابل مشاهده می‌مانند و با انتخاب آن‌ها یادداشت‌هایشان نمایش داده می‌شود. از همان الگوهای مخفی کردن پوشه‌ها استفاده می‌کند.',
@@ -1815,7 +1820,11 @@ export const STRINGS_FA = {
             },
             showFileTags: {
                 name: 'نمایش برچسب‌های فایل',
-                desc: 'برچسب‌های قابل کلیک را در آیتم‌های فایل نمایش دهید.'
+                desc: 'برچسب‌ها را در آیتم‌های فایل نمایش دهید.'
+            },
+            enableFileTagNavigation: {
+                name: 'فعال کردن پیمایش برچسب‌های فایل',
+                desc: 'برای رفتن به برچسب در بخش برچسب‌ها، روی برچسب فایل کلیک کنید.'
             },
             showFileTagAncestors: {
                 name: 'نمایش مسیرهای کامل برچسب',

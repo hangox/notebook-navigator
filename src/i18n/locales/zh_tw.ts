@@ -1750,6 +1750,11 @@ export const STRINGS_ZH_TW = {
                 desc: '逗號分隔的要隱藏的資料夾列表。名稱模式：assets*（以 assets 開頭的資料夾），*_temp（以 _temp 結尾）。路徑模式：/archive（僅根目錄 archive），/res*（以 res 開頭的根資料夾），/*/temp（一級目錄下的 temp 資料夾），/projects/*（projects 內的所有資料夾）。',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: '從最近內容中排除資料夾（vault 設定檔）',
+                desc: '以逗號分隔的資料夾清單，僅從「最近內容」面板中排除；這些資料夾及其筆記在導覽面板中仍正常顯示。使用與「隱藏資料夾」相同的比對規則。',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: '從子資料夾筆記中排除資料夾（保險庫設定檔）',
                 desc: '逗號分隔的資料夾列表，用於在收集子資料夾中的筆記時略過這些資料夾。資料夾仍會顯示，選取該資料夾時仍會顯示其中的筆記。使用與隱藏資料夾相同的模式。',
@@ -1801,7 +1806,11 @@ export const STRINGS_ZH_TW = {
             },
             showFileTags: {
                 name: '顯示檔案標籤',
-                desc: '在檔案項目中顯示可點按的標籤。'
+                desc: '在檔案項目中顯示標籤。'
+            },
+            enableFileTagNavigation: {
+                name: '啟用檔案標籤點擊跳轉',
+                desc: '點擊檔案標籤可跳轉到標籤導覽中的對應標籤。'
             },
             showFileTagAncestors: {
                 name: '顯示完整標籤路徑',

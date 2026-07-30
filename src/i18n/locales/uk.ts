@@ -1793,6 +1793,11 @@ export const STRINGS_UK = {
                 desc: 'Список папок для приховування, розділених комами. Шаблони назв: assets* (папки, що починаються з assets), *_temp (закінчуються на _temp). Шаблони шляхів: /archive (лише кореневий архів), /res* (кореневі папки, що починаються з res), /*/temp (папки temp на один рівень вглиб), /projects/* (всі папки всередині projects).',
                 placeholder: 'шаблони, assets*, /архів, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Виключати папки з нотаток підпапок (профіль сховища)',
                 desc: 'Список папок, розділених комами, які пропускаються під час збирання нотаток із підпапок. Папки залишаються видимими, і вибір папки й надалі показує її нотатки. Використовує ті самі шаблони, що й Сховати папки.',
@@ -1812,7 +1817,11 @@ export const STRINGS_UK = {
             },
             showFileTags: {
                 name: 'Показувати теги файлів',
-                desc: 'Відображати клікабельні теги в елементах файлів.'
+                desc: 'Відображати теги в елементах файлів.'
+            },
+            enableFileTagNavigation: {
+                name: 'Увімкнути навігацію за тегами файлів',
+                desc: 'Клацніть тег файлу, щоб перейти до нього в розділі тегів.'
             },
             showFileTagAncestors: {
                 name: 'Показувати повні шляхи тегів',

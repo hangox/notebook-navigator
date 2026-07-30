@@ -674,6 +674,16 @@ export function renderNotesTab(context: SettingsTabContext): void {
         }
     );
 
+    new Setting(fileTagsDependentSettingsEl)
+        .setName(strings.settings.items.enableFileTagNavigation.name)
+        .setDesc(strings.settings.items.enableFileTagNavigation.desc)
+        .addToggle(toggle =>
+            toggle.setValue(plugin.settings.enableFileTagNavigation).onChange(async value => {
+                plugin.settings.enableFileTagNavigation = value;
+                await plugin.saveSettingsAndUpdate();
+            })
+        );
+
     const colorFileTagsSetting = new Setting(fileTagsDependentSettingsEl)
         .setName(strings.settings.items.colorFileTags.name)
         .setDesc(strings.settings.items.colorFileTags.desc);

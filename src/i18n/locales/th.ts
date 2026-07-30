@@ -1788,6 +1788,11 @@ export const STRINGS_TH = {
                 desc: 'รายการโฟลเดอร์คั่นด้วยเครื่องหมายจุลภาคที่จะซ่อน รูปแบบชื่อ: assets* (โฟลเดอร์ที่เริ่มด้วย assets), *_temp (ลงท้ายด้วย _temp) รูปแบบเส้นทาง: /archive (archive หลักเท่านั้น), /res* (โฟลเดอร์หลักที่เริ่มด้วย res), /*/temp (โฟลเดอร์ temp ลึกหนึ่งระดับ), /projects/* (โฟลเดอร์ทั้งหมดใน projects)',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'ยกเว้นโฟลเดอร์จากโน้ตในโฟลเดอร์ย่อย (โปรไฟล์คลัง)',
                 desc: 'รายการโฟลเดอร์คั่นด้วยเครื่องหมายจุลภาคที่จะละเว้นเมื่อรวบรวมโน้ตจากโฟลเดอร์ย่อย โฟลเดอร์ยังคงมองเห็นได้ และเมื่อเลือกโฟลเดอร์นั้นจะยังแสดงโน้ตของโฟลเดอร์นั้น ใช้รูปแบบเดียวกับซ่อนโฟลเดอร์',
@@ -1807,7 +1812,11 @@ export const STRINGS_TH = {
             },
             showFileTags: {
                 name: 'แสดงแท็กไฟล์',
-                desc: 'แสดงแท็กที่คลิกได้ในรายการไฟล์'
+                desc: 'แสดงแท็กในรายการไฟล์'
+            },
+            enableFileTagNavigation: {
+                name: 'เปิดใช้การนำทางด้วยแท็กไฟล์',
+                desc: 'คลิกแท็กไฟล์เพื่อไปยังแท็กนั้นในส่วนแท็ก'
             },
             showFileTagAncestors: {
                 name: 'แสดงเส้นทางแท็กเต็ม',

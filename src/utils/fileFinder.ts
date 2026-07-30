@@ -43,6 +43,7 @@ import { createHiddenTagVisibility, normalizeTagPathValue } from './tagPrefixMat
 import {
     getActiveFileVisibility,
     getActiveDescendantExcludedFolders,
+    getActiveRecentNotesExcludedFolders,
     getActiveHiddenFileNames,
     getActiveHiddenFileTags,
     getActiveHiddenFileProperties,
@@ -359,7 +360,18 @@ export function getFilesForFolder(
 ): TFile[] {
     const files: TFile[] = [];
     const excludedFolderPatterns = getActiveHiddenFolders(settings);
-    const descendantExcludedFolderPatterns = getActiveDescendantExcludedFolders(settings);
+    // Recent Notes 专属排除：仅在"跨文件夹聚合"时略过这些文件夹（复用 descendant 略过机制）。
+    // 隔离性：当选中的文件夹本身（或其祖先）就落在该排除目录内时，本次不启用该排除，
+    // 保证选中 wiki / wiki 子文件夹时仍能看到其全部笔记（含嵌套子孙）。
+    const recentNotesExcludedFolderPatterns = getActiveRecentNotesExcludedFolders(settings);
+    const selectionInsideRecentExcluded =
+        recentNotesExcludedFolderPatterns.length > 0 && isFolderInExcludedFolder(folder, recentNotesExcludedFolderPatterns);
+    const descendantExcludedFolderPatterns = Array.from(
+        new Set([
+            ...getActiveDescendantExcludedFolders(settings),
+            ...(selectionInsideRecentExcluded ? [] : recentNotesExcludedFolderPatterns)
+        ])
+    );
     const excludedFileProperties = getActiveHiddenFileProperties(settings);
     const excludedFilePropertyMatcher = createFrontmatterPropertyExclusionMatcher(excludedFileProperties);
     const excludedFileNamePatterns = getActiveHiddenFileNames(settings);

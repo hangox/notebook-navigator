@@ -55,6 +55,7 @@ const FALLBACK_VAULT_PROFILE_NAME = 'Default';
 interface VaultProfileInitOptions {
     id?: string;
     hiddenFolders?: string[];
+    recentNotesExcludedFolders?: string[];
     descendantExcludedFolders?: string[];
     hiddenFileProperties?: string[];
     hiddenFileNames?: string[];
@@ -243,8 +244,12 @@ export interface HiddenFolderPatternMatch {
     normalizedPrefix: string;
 }
 
-type FolderPatternProfileKey = 'hiddenFolders' | 'descendantExcludedFolders';
-const FOLDER_PATTERN_PROFILE_KEYS: readonly FolderPatternProfileKey[] = ['hiddenFolders', 'descendantExcludedFolders'];
+type FolderPatternProfileKey = 'hiddenFolders' | 'recentNotesExcludedFolders' | 'descendantExcludedFolders';
+const FOLDER_PATTERN_PROFILE_KEYS: readonly FolderPatternProfileKey[] = [
+    'hiddenFolders',
+    'recentNotesExcludedFolders',
+    'descendantExcludedFolders'
+];
 
 export const getHiddenFolderPatternMatch = (pattern: string): HiddenFolderPatternMatch | null => {
     if (!isHiddenFolderPathPattern(pattern)) {
@@ -652,6 +657,7 @@ export function createVaultProfile(name: string, options: VaultProfileInitOption
         name: resolveProfileName(name),
         fileVisibility: resolveFileVisibility(options.fileVisibility),
         hiddenFolders: clonePatterns(options.hiddenFolders),
+        recentNotesExcludedFolders: clonePatterns(options.recentNotesExcludedFolders),
         descendantExcludedFolders: clonePatterns(options.descendantExcludedFolders),
         hiddenTags: clonePatterns(options.hiddenTags),
         hiddenFileNames: clonePatterns(options.hiddenFileNames),
@@ -679,6 +685,7 @@ function createVaultProfileFromTemplate(name: string, template: VaultProfileTemp
     const source = template.sourceProfile ?? null;
     return createVaultProfile(name, {
         hiddenFolders: source?.hiddenFolders,
+        recentNotesExcludedFolders: source?.recentNotesExcludedFolders,
         descendantExcludedFolders: source?.descendantExcludedFolders,
         hiddenFileProperties: source?.hiddenFileProperties,
         hiddenFileNames: source?.hiddenFileNames,
@@ -881,6 +888,7 @@ export function ensureVaultProfiles(settings: NotebookNavigatorSettings): void {
         profile.name = resolveProfileName(profile.name);
         profile.fileVisibility = resolveFileVisibility(profile.fileVisibility);
         profile.hiddenFolders = clonePatterns(profile.hiddenFolders);
+        profile.recentNotesExcludedFolders = clonePatterns(profile.recentNotesExcludedFolders);
         profile.descendantExcludedFolders = clonePatterns(profile.descendantExcludedFolders);
         const hiddenTagSource = Array.isArray(profile.hiddenTags) ? profile.hiddenTags : [];
         profile.hiddenTags = clonePatterns(hiddenTagSource);
@@ -934,6 +942,11 @@ export function getActiveHiddenFolders(settings: NotebookNavigatorSettings): str
 
 export function getActiveDescendantExcludedFolders(settings: NotebookNavigatorSettings): string[] {
     return getActiveVaultProfile(settings).descendantExcludedFolders;
+}
+
+// Returns the list of folders excluded only from Recent Notes / cross-folder time-ordered lists
+export function getActiveRecentNotesExcludedFolders(settings: NotebookNavigatorSettings): string[] {
+    return getActiveVaultProfile(settings).recentNotesExcludedFolders;
 }
 
 export function getActiveHiddenFileNames(settings: NotebookNavigatorSettings): string[] {

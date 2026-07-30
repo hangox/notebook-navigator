@@ -1800,6 +1800,11 @@ export const STRINGS_PT_BR = {
                 desc: 'Lista separada por vírgulas de pastas a ocultar. Padrões de nome: assets* (pastas que começam com assets), *_temp (terminam com _temp). Padrões de caminho: /arquivo (apenas arquivo raiz), /res* (pastas raiz que começam com res), /*/temp (pastas temp um nível abaixo), /projetos/* (todas as pastas dentro de projetos).',
                 placeholder: 'modelos, assets*, /arquivo, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Excluir pastas das notas de subpastas (perfil do cofre)',
                 desc: 'Lista separada por vírgulas de pastas a omitir ao coletar notas de subpastas. As pastas permanecem visíveis, e selecionar uma ainda mostra suas notas. Usa os mesmos padrões de Ocultar pastas.',
@@ -1819,7 +1824,11 @@ export const STRINGS_PT_BR = {
             },
             showFileTags: {
                 name: 'Mostrar tags de arquivo',
-                desc: 'Exibir tags clicáveis em itens de arquivo.'
+                desc: 'Exibir tags em itens de arquivo.'
+            },
+            enableFileTagNavigation: {
+                name: 'Ativar navegação por tags de arquivo',
+                desc: 'Clique em uma tag de arquivo para navegar até ela na seção Tags.'
             },
             showFileTagAncestors: {
                 name: 'Mostrar caminhos completos de tags',

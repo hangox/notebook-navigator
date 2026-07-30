@@ -1767,6 +1767,11 @@ export const STRINGS_ES = {
                 desc: 'Lista de carpetas a ocultar separadas por comas. Patrones de nombre: assets* (carpetas que comienzan con assets), *_temp (terminan con _temp). Patrones de ruta: /archive (solo archivo raíz), /res* (carpetas raíz que comienzan con res), /*/temp (carpetas temp un nivel abajo), /projects/* (todas las carpetas dentro de projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Excluir carpetas de notas de subcarpetas (perfil de bóveda)',
                 desc: 'Lista de carpetas separadas por comas que se omiten al recopilar notas de subcarpetas. Las carpetas permanecen visibles, y al seleccionar una se siguen mostrando sus notas. Usa los mismos patrones que Ocultar carpetas.',
@@ -1818,7 +1823,11 @@ export const STRINGS_ES = {
             },
             showFileTags: {
                 name: 'Mostrar etiquetas de archivo',
-                desc: 'Muestra etiquetas clicables en los elementos de archivo.'
+                desc: 'Mostrar etiquetas en elementos de archivo.'
+            },
+            enableFileTagNavigation: {
+                name: 'Activar navegación por etiquetas de archivo',
+                desc: 'Haz clic en una etiqueta de archivo para ir a ella en la sección Etiquetas.'
             },
             showFileTagAncestors: {
                 name: 'Mostrar rutas completas de etiquetas',

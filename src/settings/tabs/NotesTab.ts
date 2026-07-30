@@ -297,6 +297,11 @@ export function createNotesSettingDefinitions(context: SettingsTabContext): Sett
                     name: strings.settings.items.showFileTags.name,
                     desc: strings.settings.items.showFileTags.desc
                 }),
+                createToggleDefinition('enableFileTagNavigation', {
+                    name: strings.settings.items.enableFileTagNavigation.name,
+                    desc: strings.settings.items.enableFileTagNavigation.desc,
+                    visible: () => plugin.settings.showFileTags
+                }),
                 createToggleDefinition('colorFileTags', {
                     name: strings.settings.items.colorFileTags.name,
                     desc: strings.settings.items.colorFileTags.desc,

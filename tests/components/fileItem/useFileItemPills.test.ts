@@ -178,6 +178,38 @@ describe('useFileItemPills', () => {
         mockMetadataService.getPropertyIcon.mockImplementation(() => undefined);
     });
 
+    it('renders file tags as interactive by default and removes click semantics when disabled', () => {
+        const defaultMarkup = renderPillRows({
+            file: createTestTFile('Notes/FileTags.md'),
+            isCompactMode: false,
+            tags: ['project'],
+            properties: null,
+            wordCount: null,
+            settings: { ...DEFAULT_SETTINGS, showTags: true, showFileTags: true },
+            visiblePropertyKeys: new Set<string>(),
+            visibleNavigationPropertyKeys: new Set<string>()
+        });
+        const disabledMarkup = renderPillRows({
+            file: createTestTFile('Notes/FileTags.md'),
+            isCompactMode: false,
+            tags: ['project'],
+            properties: null,
+            wordCount: null,
+            settings: { ...DEFAULT_SETTINGS, showTags: true, showFileTags: true, enableFileTagNavigation: false },
+            visiblePropertyKeys: new Set<string>(),
+            visibleNavigationPropertyKeys: new Set<string>()
+        });
+
+        expect(DEFAULT_SETTINGS.enableFileTagNavigation).toBe(true);
+        expect(defaultMarkup).toContain('class="nn-file-tag nn-clickable-tag"');
+        expect(defaultMarkup).toContain('role="button"');
+        expect(defaultMarkup).toContain('tabindex="0"');
+        expect(disabledMarkup).toContain('class="nn-file-tag"');
+        expect(disabledMarkup).not.toContain('nn-clickable-tag');
+        expect(disabledMarkup).not.toContain('role="button"');
+        expect(disabledMarkup).not.toContain('tabindex="0"');
+    });
+
     it('renders custom-colored tags before uncolored tags when custom-color priority is enabled', () => {
         mockMetadataService.getTagColorData.mockImplementation(tag => {
             if (tag === 'beta') {

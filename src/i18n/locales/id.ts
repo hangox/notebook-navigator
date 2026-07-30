@@ -1796,6 +1796,11 @@ export const STRINGS_ID = {
                 desc: 'Daftar folder yang dipisahkan koma untuk disembunyikan. Pola nama: assets* (folder yang dimulai dengan assets), *_temp (diakhiri dengan _temp). Pola path: /arsip (arsip root saja), /res* (folder root yang dimulai dengan res), /*/temp (folder temp satu level ke dalam), /proyek/* (semua folder di dalam proyek).',
                 placeholder: 'template, assets*, /arsip, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Kecualikan folder dari catatan subfolder (profil vault)',
                 desc: 'Daftar folder yang dipisahkan koma untuk dilewati saat mengumpulkan catatan dari subfolder. Folder tetap terlihat, dan memilih folder tetap menampilkan catatannya. Menggunakan pola yang sama seperti Sembunyikan folder.',
@@ -1815,7 +1820,11 @@ export const STRINGS_ID = {
             },
             showFileTags: {
                 name: 'Tampilkan tag file',
-                desc: 'Tampilkan tag yang dapat diklik di item file.'
+                desc: 'Tampilkan tag di item file.'
+            },
+            enableFileTagNavigation: {
+                name: 'Aktifkan navigasi tag file',
+                desc: 'Klik tag file untuk menavigasi ke tag tersebut di bagian Tag.'
             },
             showFileTagAncestors: {
                 name: 'Tampilkan path tag lengkap',

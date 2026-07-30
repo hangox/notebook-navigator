@@ -1771,6 +1771,11 @@ export const STRINGS_FR = {
                 desc: 'Liste de dossiers à masquer séparés par des virgules. Modèles de nom : assets* (dossiers commençant par assets), *_temp (finissant par _temp). Modèles de chemin : /archive (archive racine uniquement), /res* (dossiers racine commençant par res), /*/temp (dossiers temp un niveau plus bas), /projects/* (tous les dossiers dans projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'Exclure des dossiers des notes de sous-dossiers (profil du coffre)',
                 desc: 'Liste de dossiers séparés par des virgules à ignorer lors de la collecte des notes des sous-dossiers. Les dossiers restent visibles, et leur sélection affiche toujours leurs notes. Utilise les mêmes modèles que Masquer les dossiers.',
@@ -1822,7 +1827,11 @@ export const STRINGS_FR = {
             },
             showFileTags: {
                 name: 'Afficher les tags de fichier',
-                desc: 'Affiche les tags cliquables dans les éléments de fichier.'
+                desc: 'Afficher les tags dans les éléments de fichier.'
+            },
+            enableFileTagNavigation: {
+                name: 'Activer la navigation par tags de fichier',
+                desc: 'Cliquez sur un tag de fichier pour y accéder dans la section Tags.'
             },
             showFileTagAncestors: {
                 name: 'Afficher les chemins complets des tags',

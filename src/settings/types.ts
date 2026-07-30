@@ -569,6 +569,8 @@ export interface VaultProfile {
     fileVisibility: FileVisibility;
     propertyKeys: VaultProfilePropertyKey[];
     hiddenFolders: string[];
+    /** Folders excluded only from Recent Notes (does not affect the navigation pane) */
+    recentNotesExcludedFolders: string[];
     descendantExcludedFolders: string[];
     hiddenTags: string[];
     hiddenFileNames: string[];
@@ -789,6 +791,7 @@ export interface NotebookNavigatorSettings {
     forceSquareFeatureImage: boolean;
     downloadExternalFeatureImages: boolean;
     showFileTags: boolean;
+    enableFileTagNavigation: boolean;
     colorFileTags: boolean;
     prioritizeColoredFileTags: boolean;
     showFileTagAncestors: boolean;

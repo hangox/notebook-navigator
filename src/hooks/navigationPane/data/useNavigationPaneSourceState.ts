@@ -114,6 +114,7 @@ export function useNavigationPaneSourceState({
 }: UseNavigationPaneSourceStateParams): NavigationPaneSourceState {
     const {
         hiddenFolders: profileHiddenFolders,
+        recentNotesExcludedFolders,
         descendantExcludedFolders,
         hiddenFileProperties,
         hiddenFileNames,
@@ -226,11 +227,18 @@ export function useNavigationPaneSourceState({
         [activeProfile.propertyKeys]
     );
 
+    // Recent Notes 面板在导航面板的 hiddenFolders 基础上，额外叠加 recentNotesExcludedFolders，
+    // 这样这些文件夹只从"最近内容"里排除，导航面板仍正常显示。
+    const recentNotesHiddenFolders = useMemo(
+        () => Array.from(new Set([...profileHiddenFolders, ...recentNotesExcludedFolders])),
+        [profileHiddenFolders, recentNotesExcludedFolders]
+    );
+
     const recentNotesHiddenFileMatcher = useMemo(() => {
         return createFileHiddenMatcher(
             {
                 hiddenFileProperties,
-                hiddenFolders: profileHiddenFolders,
+                hiddenFolders: recentNotesHiddenFolders,
                 hiddenFileNames,
                 hiddenFileTags,
                 hideDrawingPreviewImages: settings.hideDrawingPreviewImages
@@ -242,7 +250,7 @@ export function useNavigationPaneSourceState({
         app,
         showHiddenItems,
         hiddenFileProperties,
-        profileHiddenFolders,
+        recentNotesHiddenFolders,
         hiddenFileNames,
         hiddenFileTags,
         settings.hideDrawingPreviewImages

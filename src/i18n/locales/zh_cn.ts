@@ -1749,6 +1749,11 @@ export const STRINGS_ZH_CN = {
                 desc: '逗号分隔的要隐藏的文件夹列表。名称模式：assets*（以assets开头的文件夹），*_temp（以_temp结尾）。路径模式：/archive（仅根目录archive），/res*（以res开头的根文件夹），/*/temp（一级目录下的temp文件夹），/projects/*（projects内的所有文件夹）。',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: '从最近内容中排除文件夹（vault 配置）',
+                desc: '以逗号分隔的文件夹列表，仅从"最近内容"面板中排除；这些文件夹及其笔记在导航面板中仍正常显示。使用与"隐藏文件夹"相同的匹配规则。',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: '从子文件夹笔记中排除文件夹（库配置）',
                 desc: '逗号分隔的文件夹列表，用于在收集子文件夹中的笔记时跳过这些文件夹。文件夹仍会显示，选择该文件夹时仍会显示其中的笔记。使用与隐藏文件夹相同的模式。',
@@ -1800,7 +1805,11 @@ export const STRINGS_ZH_CN = {
             },
             showFileTags: {
                 name: '显示文件标签',
-                desc: '在文件项中显示可点击的标签。'
+                desc: '在文件项中显示标签。'
+            },
+            enableFileTagNavigation: {
+                name: '启用文件标签点击跳转',
+                desc: '点击文件标签可跳转到标签导航中的对应标签。'
             },
             showFileTagAncestors: {
                 name: '显示完整标签路径',

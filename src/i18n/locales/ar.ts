@@ -1790,6 +1790,11 @@ export const STRINGS_AR = {
                 desc: 'قائمة مفصولة بفاصلة من المجلدات لإخفائها. أنماط الاسم: assets* (المجلدات التي تبدأ بـ assets)، *_temp (التي تنتهي بـ _temp). أنماط المسار: /archive (الأرشيف الجذري فقط)، /res* (المجلدات الجذرية التي تبدأ بـ res)، /*/temp (مجلدات temp بمستوى واحد)، /projects/* (جميع المجلدات داخل projects).',
                 placeholder: 'templates, assets*, /archive, /res*'
             },
+            recentNotesExcludedFolders: {
+                name: 'Exclude folders from recent notes (vault profile)',
+                desc: 'Comma-separated list of folders to exclude only from the recent notes list. The folders and their notes still appear normally in the navigation pane. Uses the same patterns as Hide folders.',
+                placeholder: 'wiki, /archive'
+            },
             descendantExcludedFolders: {
                 name: 'استبعاد المجلدات من ملاحظات المجلدات الفرعية (ملف تعريف الخزنة)',
                 desc: 'قائمة مفصولة بفواصل للمجلدات التي يتم تجاهلها عند جمع الملاحظات من المجلدات الفرعية. تبقى المجلدات مرئية، ويظل تحديدها يعرض ملاحظاتها. تستخدم نفس أنماط إخفاء المجلدات.',
@@ -1809,7 +1814,11 @@ export const STRINGS_AR = {
             },
             showFileTags: {
                 name: 'إظهار وسوم الملفات',
-                desc: 'عرض وسوم قابلة للنقر في عناصر الملفات.'
+                desc: 'عرض الوسوم في عناصر الملفات.'
+            },
+            enableFileTagNavigation: {
+                name: 'تمكين التنقل عبر وسوم الملفات',
+                desc: 'انقر على وسم ملف للانتقال إليه في قسم التنقل بالوسوم.'
             },
             showFileTagAncestors: {
                 name: 'إظهار مسارات الوسوم الكاملة',

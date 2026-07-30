@@ -307,6 +307,19 @@ export function useFileItemPills({
         [navigateToTag, onModifySearchWithTag, settings.multiSelectModifier]
     );
 
+    const handleTagKeyDown = useCallback(
+        (event: React.KeyboardEvent, tag: string) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            navigateToTag(tag, { preserveNavigationFocus: false });
+        },
+        [navigateToTag]
+    );
+
     const handlePropertyClick = useCallback(
         (event: React.MouseEvent, pill: PropertyPill) => {
             const propertyNodeId = pill.propertyNodeId;
@@ -1066,15 +1079,18 @@ export function useFileItemPills({
                         tagStyle.color = tagColor;
                     }
 
+                    const isClickable = settings.enableFileTagNavigation;
+
                     return (
                         <span
                             key={index}
-                            className="nn-file-tag nn-clickable-tag"
+                            className={isClickable ? 'nn-file-tag nn-clickable-tag' : 'nn-file-tag'}
                             data-has-color={tagColor ? 'true' : undefined}
                             data-has-background={tagBackground ? 'true' : undefined}
-                            onClick={event => handleTagClick(event, tag)}
-                            role="button"
-                            tabIndex={0}
+                            onClick={isClickable ? event => handleTagClick(event, tag) : undefined}
+                            onKeyDown={isClickable ? event => handleTagKeyDown(event, tag) : undefined}
+                            role={isClickable ? 'button' : undefined}
+                            tabIndex={isClickable ? 0 : undefined}
                             style={tagColor || tagBackground ? tagStyle : undefined}
                         >
                             {tagIconId ? <ServiceIcon iconId={tagIconId} className="nn-file-pill-inline-icon" aria-hidden={true} /> : null}
@@ -1084,7 +1100,16 @@ export function useFileItemPills({
                 })}
             </div>
         );
-    }, [categorizedTags, getTagDisplayName, handleTagClick, shouldShowFileTags, tagColorData, tagPillIcons]);
+    }, [
+        categorizedTags,
+        getTagDisplayName,
+        handleTagClick,
+        handleTagKeyDown,
+        settings.enableFileTagNavigation,
+        shouldShowFileTags,
+        tagColorData,
+        tagPillIcons
+    ]);
 
     const propertyRowsNode = useMemo(() => {
         if (!shouldShowProperty) {

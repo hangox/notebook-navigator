@@ -47,6 +47,7 @@ type SettingsStateValue = NotebookNavigatorSettings & { dualPaneOrientation: Dua
 export interface ActiveProfileState {
     profile: VaultProfile;
     hiddenFolders: string[];
+    recentNotesExcludedFolders: string[];
     descendantExcludedFolders: string[];
     hiddenFileProperties: string[];
     hiddenFileNames: string[];
@@ -301,6 +302,9 @@ export function SettingsProvider({ children, plugin }: SettingsProviderProps) {
             nextSettings.vaultProfiles = plugin.settings.vaultProfiles.map(profile => ({
                 ...profile,
                 hiddenFolders: Array.isArray(profile.hiddenFolders) ? [...profile.hiddenFolders] : [],
+                recentNotesExcludedFolders: Array.isArray(profile.recentNotesExcludedFolders)
+                    ? [...profile.recentNotesExcludedFolders]
+                    : [],
                 descendantExcludedFolders: Array.isArray(profile.descendantExcludedFolders) ? [...profile.descendantExcludedFolders] : [],
                 hiddenFileProperties: Array.isArray(profile.hiddenFileProperties) ? [...profile.hiddenFileProperties] : [],
                 hiddenFileNames: Array.isArray(profile.hiddenFileNames) ? [...profile.hiddenFileNames] : [],
@@ -343,6 +347,10 @@ export function SettingsProvider({ children, plugin }: SettingsProviderProps) {
         const isSameProfile = previous?.profile.id === profile.id;
 
         const hiddenFoldersEqual = areStringArraysEqual(previous?.profile.hiddenFolders ?? [], profile.hiddenFolders);
+        const recentNotesExcludedFoldersEqual = areStringArraysEqual(
+            previous?.profile.recentNotesExcludedFolders ?? [],
+            profile.recentNotesExcludedFolders
+        );
         const descendantExcludedFoldersEqual = areStringArraysEqual(
             previous?.profile.descendantExcludedFolders ?? [],
             profile.descendantExcludedFolders
@@ -363,6 +371,7 @@ export function SettingsProvider({ children, plugin }: SettingsProviderProps) {
         if (
             isSameProfile &&
             hiddenFoldersEqual &&
+            recentNotesExcludedFoldersEqual &&
             descendantExcludedFoldersEqual &&
             hiddenFilePropertiesEqual &&
             hiddenFileNamesEqual &&
@@ -383,6 +392,7 @@ export function SettingsProvider({ children, plugin }: SettingsProviderProps) {
         const nextActiveProfile: ActiveProfileState = {
             profile,
             hiddenFolders: profile.hiddenFolders,
+            recentNotesExcludedFolders: profile.recentNotesExcludedFolders,
             descendantExcludedFolders: profile.descendantExcludedFolders,
             hiddenFileProperties: profile.hiddenFileProperties,
             hiddenFileNames: profile.hiddenFileNames,
